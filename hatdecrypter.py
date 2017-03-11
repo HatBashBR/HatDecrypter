@@ -4,55 +4,30 @@ from bs4 import BeautifulSoup
 #Author: Everton a.k.a XGU4RD14N && Mateus Lino a.k.a Dctor
 #fb: https://www.facebook.com/hatbashbr/
 
-def md5salt(hash):
-    print "########## Tentando - MD5 Salted Decrypter ##########"
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
-        
-    if(options.salt == "None"):
-        print "Para tentar com o MD5 Salted voce precisa definir um salt!"
-        sys.exit()
-    
-    try:
-        f = open(options.wl)
-        for pwd in f.readlines():
-            pwd = pwd.strip()
-            d = hashlib.md5(options.salt+pwd).hexdigest()
-            if(d == hash):
-                print "Senha encontrada: "+pwd
-                sys.exit()
-        print "Senha nao encontrada! :-("
-    except IOError:
-        print "Nao foi possivel abrir sua wordlist, tente novamente."
-    except Exception as e:
-        print "Erro: "+str(e)
-    
-def md5Decrypt(hash):
-    print "########## Tentando - MD5 Decrypter ##########"
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
-    url = BeautifulSoup(urllib.urlopen("https://md5.gromweb.com/?md5=" + hash), "html.parser")
-    password = url.find("em", {"class": "long-content string"})
-    password = re.sub(re.compile("<.*?>"), "", str(password)).strip()
-    if str(password) == "None":
-        print "Senha nao encontrada! :-("
+def salted(hash, tipo):
+    word = ""
+    if(tipo == 0):
+        word = "MD5"
     else:
-        print "Senha: " + password
-
-def sha1salt(hash):
-    print "########## Tentando - SHA1 Salted Decrypter ##########"
+        word = "SHA1"
+        
+    print "########## Tentando - " + word + " Salted Decrypter ##########"
     if(hash == "None"):
         hash = raw_input("Digite o hash: ")
         
     if(options.salt == "None"):
-        print "Para tentar com o SHA1 Salted voce precisa definir um salt!"
+        print "Para tentar com o " + word + " Salted voce precisa definir um salt!"
         sys.exit()
     
     try:
         f = open(options.wl)
         for pwd in f.readlines():
             pwd = pwd.strip()
-            d = hashlib.sha1(options.salt+pwd).hexdigest()
+            if(tipo == 0):
+                d = hashlib.md5(options.salt+pwd).hexdigest()
+            else:
+                d = hashlib.sha1(options.salt+pwd).hexdigest()
+                
             if(d == hash):
                 print "Senha encontrada: "+pwd
                 sys.exit()
@@ -62,11 +37,22 @@ def sha1salt(hash):
     except Exception as e:
         print "Erro: "+str(e)
 
-def sha1Decrypt(hash):
-    print"########## Tentando - SHA1 Decrypter ##########"
+def decrypt(hash, tipo):
+    word = ""
+    if(tipo == 0):
+        word = "MD5"
+    else:
+        word = "SHA1"
+        
+    print "########## Tentando - " + word + " Decrypter ##########"
     if(hash == "None"):
         hash = raw_input("Digite o hash: ")
-    url = BeautifulSoup(urllib.urlopen("https://sha1.gromweb.com/?hash=" + hash), "html.parser")
+        
+    if(tipo == 0):
+        url = BeautifulSoup(urllib.urlopen("https://md5.gromweb.com/?md5=" + hash), "html.parser")
+    else:
+        url = BeautifulSoup(urllib.urlopen("https://sha1.gromweb.com/?hash=" + hash), "html.parser")
+        
     password = url.find("em", {"class": "long-content string"})
     password = re.sub(re.compile("<.*?>"), "", str(password)).strip()
     if str(password) == "None":
@@ -91,15 +77,11 @@ try:
     if(type != 0 and type != 1):
         print "Tipo de hash invalido!"
         sys.exit()
-
-    if(type == 0 and options.salt == "None"):
-        md5Decrypt(options.hash)
-    elif(type == 0 and options.salt != "None"):
-        md5salt(options.hash)
-    elif(type == 1 and options.salt == "None"):
-        sha1Decrypt(options.hash)
-    elif(type == 1 and options.salt != "None"):
-        sha1salt(options.hash)
+    
+    if(options.salt != "None"):
+        salted(options.hash, type)
+    elif(options.salt == "None"):
+        decrypt(options.hash, type)
     else:
         parser.print_help()
         sys.exit()
