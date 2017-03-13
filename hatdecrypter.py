@@ -18,14 +18,19 @@ try:
     elif(type == 1):
         crackers.word = "SHA1"
         
-    if(options.salt != "None"):
+    if(options.salt != "None" and options.user == "None"):
         print "########## Tentando metodos com salt ##########"
         sp  = threading.Thread(target=saltpass(options.hash, type)).start()
         ps  = threading.Thread(target=passsalt(options.hash, type)).start()
         psp = threading.Thread(target=passsaltpass(options.hash, type)).start()
+        sps = threading.Thread(target=saltpasssalt(options.hash, type)).start()
+    elif(options.salt != "None" and options.user != "None"):
+        print "########## Tentando metodos com salt ##########"
+        spu  = threading.Thread(target=saltpassuser(options.hash, type, options.user)).start()
     elif(options.salt == "None"):
         print "########## Tentando metodos sem salt ##########"
         db = threading.Thread(target=double(options.hash, type)).start()
+        pp = threading.Thread(target=passpass(options.hash, type)).start()
         df = threading.Thread(target=decrypt(options.hash, type)).start()
     else:
         parser.print_help()
