@@ -2,9 +2,25 @@
 
 import urllib, re, sys, optparse, hashlib
 from bs4 import BeautifulSoup
+from passlib.hash import phpass
 
 #Author: Everton a.k.a XGU4RD14N && Mateus Lino a.k.a Dctor
 #fb: https://www.facebook.com/hatbashbr/
+
+def banner():
+    print " |   |       |   __ \                             |            "
+    print " |   |  _` | __| |   |  _ \  __|  __| |   | __ \  __|  _ \  __|"
+    print " ___ | (   | |   |   |  __/ (    |    |   | |   | |    __/ |   "
+    print "_|  _|\__,_|\__|____/ \___|\___|_|   \__, | .__/ \__|\___|_|   "
+    print "                                     ____/ _|                  "
+    print ""
+    print "Author: Everton a.k.a XGU4RD14N - HatBashBR"
+    print "Members HatBashBR: Mateus a.k.a Dctor, Junior a.k.a ASTAROTH, Johnny a.k.a UrdSys, No One, Geovane, RHood"
+    print "fb.com/hatbashbr"
+    print "github.com/hatbashbr"
+    print ""
+banner()
+
 word = ""
 
 parser = optparse.OptionParser()
@@ -14,6 +30,27 @@ parser.add_option("-w", "--wordlist", dest="wl", help="adicione uma wordlist(opc
 parser.add_option("-s", "--salt", dest="salt", help="adicione um salt(opcional)", default="None")
 parser.add_option("-u", "--user", dest="user", help="adicione um nome de usuario(opcional)", default="None")
 options, args = parser.parse_args()
+
+def phpasswordpress(hash):
+    if hash == "None":
+        hash = raw_input("Digite o hash: ")
+        
+    try:
+        f = open(options.wl)
+        for pwd in f.readlines():
+            pwd = pwd.strip()
+            d = phpass.verify(pwd, hash)
+             
+            if(d == True):
+                print "WordPress(PHPass) - Senha encontrada: "+pwd
+                sys.exit()
+        print "WordPress(PHPass) - Senha nao encontrada! :-("
+    except IOError:
+        print "Nao foi possivel abrir sua wordlist, tente novamente."
+    except ValueError:
+        print "WordPress(PHPass) - Hash invalido"
+    except Exception as e:
+        print "Erro: "+str(e)
 
 def saltpassuser(hash, tipo, user):
     global word
@@ -52,9 +89,9 @@ def saltpasssalt(hash, tipo):
                 d = hashlib.sha1(options.salt+pwd+options.salt).hexdigest()
                 
             if(d == hash):
-                print word+"(pass+salt+pass) - Senha encontrada: "+pwd
+                print word+"(salt+pass+salt) - Senha encontrada: "+pwd
                 sys.exit()
-        print word+"(pass+salt+pass) - Senha nao encontrada! :-("
+        print word+"(salt+pass+salt) - Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:

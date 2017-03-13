@@ -1,14 +1,17 @@
 # HatDecrypt
-MD5 and SHA1 Decryptor
+MD5, SHA1 and WordPress Decryptor
 
 # Dependencies
-You will need to install the bs4 library:
-pip install bs4
-or download at https://pypi.python.org/pypi/beautifulsoup4
+You will need to install the bs4 and the passlib library:
+pip install bs4 passlib<br />
+or download at
+https://pypi.python.org/pypi/beautifulsoup4<br />
+https://pypi.python.org/pypi/passlib
 
 # Types List
 0 = MD5<br />
-1 = SHA1
+1 = SHA1<br />
+2 = WordPress
 
 # Options
   -h, --help            show this help message and exit<br />
@@ -20,7 +23,17 @@ or download at https://pypi.python.org/pypi/beautifulsoup4
 
 # Usage
 Default<br />
-python hatdecrypter.py -t TIPO<br />
+python hatdecrypter.py -t TIPO -p HASH<br />
 
 Salted<br />
-python hatdecrypter.py -t TIPO -s SALT
+python hatdecrypter.py -t TIPO -p HASH -s SALT<br />
+
+WordPress<br />
+Windows: python hatdecrypter.py -t 2 -p HASH<br />
+Linux: python hatdecrypter.py -t 2 -p 'HASH'
+
+# ScreenShots
+<img src='http://imgur.com/IIsLF4e.png' /><br />
+<img src='http://imgur.com/7pIVCaR.png' /><br />
+<img src='http://imgur.com/PERPWs6.png' /><br />
+<img src='http://imgur.com/W3VJOqm.png' /><br />
