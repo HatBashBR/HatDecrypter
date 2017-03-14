@@ -32,9 +32,6 @@ parser.add_option("-u", "--user", dest="user", help="adicione um nome de usuario
 options, args = parser.parse_args()
 
 def phpasswordpress(hash):
-    if hash == "None":
-        hash = raw_input("Digite o hash: ")
-        
     try:
         f = open(options.wl)
         for pwd in f.readlines():
@@ -42,20 +39,60 @@ def phpasswordpress(hash):
             d = phpass.verify(pwd, hash)
              
             if(d == True):
-                print "WordPress(PHPass) - Senha encontrada: "+pwd
+                print "WordPress(PHPass)\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print "WordPress(PHPass) - Senha nao encontrada! :-("
+        print "WordPress(PHPass)\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except ValueError:
-        print "WordPress(PHPass) - Hash invalido"
+        print "WordPress(PHPass)\t\t>>> Hash invalido"
+    except Exception as e:
+        print "Erro: "+str(e)
+
+def hashsalthashpasssalt(hash, tipo):
+    global word
+    
+    try:
+        f = open(options.wl)
+        for pwd in f.readlines():
+            pwd = pwd.strip()
+            if(tipo == 0):
+                d = hashlib.md5(options.salt+hashlib.md5(pwd).hexdigest()+options.salt).hexdigest()
+            else:
+                d = hashlib.sha1(options.salt+hashlib.sha1(pwd).hexdigest()+options.salt).hexdigest()
+                
+            if(d == hash):
+                print word+"(salt+"+ word +"(pass)+salt)\t>>> Senha encontrada: "+pwd
+                sys.exit()
+        print word+"(salt+"+ word +"(pass)+salt)\t>>> Senha nao encontrada! :-("
+    except IOError:
+        print "Nao foi possivel abrir sua wordlist, tente novamente."
+    except Exception as e:
+        print "Erro: "+str(e)
+
+def hashsalthashpass(hash, tipo):
+    global word
+    
+    try:
+        f = open(options.wl)
+        for pwd in f.readlines():
+            pwd = pwd.strip()
+            if(tipo == 0):
+                d = hashlib.md5(options.salt+hashlib.md5(pwd).hexdigest()).hexdigest()
+            else:
+                d = hashlib.sha1(options.salt+hashlib.sha1(pwd).hexdigest()).hexdigest()
+                
+            if(d == hash):
+                print word+"(salt+"+ word +"(pass))\t\t>>> Senha encontrada: "+pwd
+                sys.exit()
+        print word+"(salt+"+ word +"(pass))\t\t>>> Senha nao encontrada! :-("
+    except IOError:
+        print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
 
 def saltpassuser(hash, tipo, user):
     global word
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
     
     try:
         f = open(options.wl)
@@ -67,9 +104,9 @@ def saltpassuser(hash, tipo, user):
                 d = hashlib.sha1(options.salt+pwd+user).hexdigest()
                 
             if(d == hash):
-                print word+"(salt+pass+username) - Senha encontrada: "+pwd
+                print word+"(salt+pass+username)\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print word+"(salt+pass+username) - Senha nao encontrada! :-("
+        print word+"(salt+pass+username)\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
@@ -77,8 +114,6 @@ def saltpassuser(hash, tipo, user):
 
 def saltpasssalt(hash, tipo):
     global word
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
     try:
         f = open(options.wl)
         for pwd in f.readlines():
@@ -89,9 +124,9 @@ def saltpasssalt(hash, tipo):
                 d = hashlib.sha1(options.salt+pwd+options.salt).hexdigest()
                 
             if(d == hash):
-                print word+"(salt+pass+salt) - Senha encontrada: "+pwd
+                print word+"(salt+pass+salt)\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print word+"(salt+pass+salt) - Senha nao encontrada! :-("
+        print word+"(salt+pass+salt)\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
@@ -99,8 +134,6 @@ def saltpasssalt(hash, tipo):
 
 def passsaltpass(hash, tipo):
     global word
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
     try:
         f = open(options.wl)
         for pwd in f.readlines():
@@ -111,9 +144,9 @@ def passsaltpass(hash, tipo):
                 d = hashlib.sha1(pwd+options.salt+pwd).hexdigest()
                 
             if(d == hash):
-                print word+"(pass+salt+pass) - Senha encontrada: "+pwd
+                print word+"(pass+salt+pass)\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print word+"(pass+salt+pass) - Senha nao encontrada! :-("
+        print word+"(pass+salt+pass)\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
@@ -121,8 +154,6 @@ def passsaltpass(hash, tipo):
 
 def passsalt(hash, tipo):
     global word
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
     try:
         f = open(options.wl)
         for pwd in f.readlines():
@@ -133,9 +164,9 @@ def passsalt(hash, tipo):
                 d = hashlib.sha1(pwd+options.salt).hexdigest()
                 
             if(d == hash):
-                print word+"(pass+salt) - Senha encontrada: "+pwd
+                print word+"(pass+salt)\t\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print word+"(pass+salt) - Senha nao encontrada! :-("
+        print word+"(pass+salt)\t\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
@@ -143,8 +174,6 @@ def passsalt(hash, tipo):
 
 def saltpass(hash, tipo):
     global word
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
         
     if(options.salt == "None"):
         print "Para tentar com o " + word + " Salted voce precisa definir um salt!"
@@ -160,9 +189,9 @@ def saltpass(hash, tipo):
                 d = hashlib.sha1(options.salt+pwd).hexdigest()
                 
             if(d == hash):
-                print word+"(salt+pass) - Senha encontrada: "+pwd
+                print word+"(salt+pass)\t\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print word+"(salt+pass) - Senha nao encontrada! :-("
+        print word+"(salt+pass)\t\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
@@ -170,9 +199,6 @@ def saltpass(hash, tipo):
 
 def passpass(hash, tipo):
     global word
-    
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
         
     try:
         f = open(options.wl)
@@ -184,9 +210,9 @@ def passpass(hash, tipo):
                 d = hashlib.sha1(pwd+hashlib.sha1(pwd).hexdigest()).hexdigest()
                 
             if(d == hash):
-                print word +"(pass+"+word+"(pass)) - Senha encontrada: "+pwd
+                print word +"(pass+"+word+"(pass))\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print word +"(pass+"+word+"(pass)) - Senha nao encontrada! :-("
+        print word +"(pass+"+word+"(pass))\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
@@ -194,9 +220,6 @@ def passpass(hash, tipo):
     
 def double(hash, tipo):
     global word
-    
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
         
     try:
         f = open(options.wl)
@@ -208,9 +231,9 @@ def double(hash, tipo):
                 d = hashlib.sha1(hashlib.sha1(pwd).hexdigest()).hexdigest()
                 
             if(d == hash):
-                print "Double "+ word +" - Senha encontrada: "+pwd
+                print "Double "+ word +"\t\t\t>>> Senha encontrada: "+pwd
                 sys.exit()
-        print "Double "+ word +" - Senha nao encontrada! :-("
+        print "Double "+ word +"\t\t\t>>> Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
@@ -218,9 +241,6 @@ def double(hash, tipo):
         
 def decrypt(hash, tipo):
     global word
-    
-    if(hash == "None"):
-        hash = raw_input("Digite o hash: ")
         
     if(tipo == 0):
         url = BeautifulSoup(urllib.urlopen("https://md5.gromweb.com/?md5=" + hash), "html.parser")
@@ -230,7 +250,7 @@ def decrypt(hash, tipo):
     password = url.find("em", {"class": "long-content string"})
     password = re.sub(re.compile("<.*?>"), "", str(password)).strip()
     if str(password) == "None":
-        print word+" - Senha nao encontrada! :-("
+        print word+"\t\t\t\t>>> Senha nao encontrada! :-("
     else:
-        print word+" - Senha encontrada: " + password
+        print word+"\t\t\t\t>>> Senha encontrada: " + password
         sys.exit()
