@@ -11,6 +11,8 @@ def saltanduser(hash, type):
     hshpu = threading.Thread(target=hashsalthashpassuser(hash, type, options.user)).start()
     
 def withoutsalt(hash, type):
+    qp = threading.Thread(target=quadruple(hash, type)).start()
+    tp = threading.Thread(target=triple(hash, type)).start()
     db = threading.Thread(target=double(hash, type)).start()
     pp = threading.Thread(target=passpass(hash, type)).start()
     df = threading.Thread(target=decrypt(hash, type)).start()
@@ -24,6 +26,7 @@ def withsalt(hash, type):
     hshps  = threading.Thread(target=hashsalthashpasssalt(hash, type)).start()
     hsehps = threading.Thread(target=hashsaltehashpasssalt(hash, type)).start()
     hsehsp = threading.Thread(target=hashsaltehashsaltpass(hash, type)).start()
+    hshhps = threading.Thread(target=hashsalthashhashpasssalt(hash, type)).start()
 
 
 try:

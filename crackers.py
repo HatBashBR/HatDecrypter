@@ -94,6 +94,27 @@ def saltpassuser(hash, tipo, user):
         print "Erro: "+str(e)
 
 #With Salt
+def hashsalthashhashpasssalt(hash, tipo):
+    global word
+    
+    try:
+        f = open(options.wl)
+        for pwd in f.readlines():
+            pwd = pwd.strip()
+            if(tipo == 0):
+                d = hashlib.md5(options.salt+hashlib.md5(hashlib.md5(pwd).hexdigest()+options.salt).hexdigest()).hexdigest()
+            else:
+                d = hashlib.sha1(options.salt+hashlib.sha1(hashlib.sha1(pwd).hexdigest()+options.salt).hexdigest()).hexdigest()
+                
+            if(d == hash):
+                print word+"(salt+"+ word +"("+ word +"(pass)+salt))\t>>> Senha encontrada: "+pwd
+                sys.exit()
+        print word+"(salt+"+ word +"("+ word +"(pass)+salt))\t>>> Senha nao encontrada! :-("
+    except IOError:
+        print "Nao foi possivel abrir sua wordlist, tente novamente."
+    except Exception as e:
+        print "Erro: "+str(e)
+    
 def hashsaltehashsaltpass(hash, tipo):
     global word
     
@@ -285,6 +306,48 @@ def passpass(hash, tipo):
     except Exception as e:
         print "Erro: "+str(e)
     
+def quadruple(hash, tipo):
+    global word
+        
+    try:
+        f = open(options.wl)
+        for pwd in f.readlines():
+            pwd = pwd.strip()
+            if(tipo == 0):
+                d = hashlib.md5(hashlib.md5(hashlib.md5(hashlib.md5(pwd).hexdigest()).hexdigest()).hexdigest()).hexdigest()
+            else:
+                d = hashlib.sha1(hashlib.sha1(hashlib.sha1(hashlib.sha1(pwd).hexdigest()).hexdigest()).hexdigest()).hexdigest()
+                
+            if(d == hash):
+                print "Quadruple "+ word +"\t\t\t>>> Senha encontrada: "+pwd
+                sys.exit()
+        print "Quadruple "+ word +"\t\t\t>>> Senha nao encontrada! :-("
+    except IOError:
+        print "Nao foi possivel abrir sua wordlist, tente novamente."
+    except Exception as e:
+        print "Erro: "+str(e)
+
+def triple(hash, tipo):
+    global word
+        
+    try:
+        f = open(options.wl)
+        for pwd in f.readlines():
+            pwd = pwd.strip()
+            if(tipo == 0):
+                d = hashlib.md5(hashlib.md5(hashlib.md5(pwd).hexdigest()).hexdigest()).hexdigest()
+            else:
+                d = hashlib.sha1(hashlib.sha1(hashlib.sha1(pwd).hexdigest()).hexdigest()).hexdigest()
+                
+            if(d == hash):
+                print "Triple "+ word +"\t\t\t>>> Senha encontrada: "+pwd
+                sys.exit()
+        print "Triple "+ word +"\t\t\t>>> Senha nao encontrada! :-("
+    except IOError:
+        print "Nao foi possivel abrir sua wordlist, tente novamente."
+    except Exception as e:
+        print "Erro: "+str(e)
+
 def double(hash, tipo):
     global word
         
