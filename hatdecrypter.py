@@ -11,10 +11,12 @@ def saltanduser(hash, type):
     hshpu = threading.Thread(target=hashsalthashpassuser(hash, type, options.user)).start()
     
 def withoutsalt(hash, type):
+    pp = threading.Thread(target=passpass(hash, type)).start()
+    sp = threading.Thread(target=sextuple(hash, type)).start()
+    qt = threading.Thread(target=quintuple(hash, type)).start()
     qp = threading.Thread(target=quadruple(hash, type)).start()
     tp = threading.Thread(target=triple(hash, type)).start()
     db = threading.Thread(target=double(hash, type)).start()
-    pp = threading.Thread(target=passpass(hash, type)).start()
     df = threading.Thread(target=decrypt(hash, type)).start()
     
 def withsalt(hash, type):
@@ -64,6 +66,5 @@ try:
             print ""
         print "########## Tentando metodos sem salt ##########"
         wos = threading.Thread(target=withoutsalt(hash, type)).start()
-        
 except Exception as e:
     print "Erro: "+str(e)
