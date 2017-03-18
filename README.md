@@ -16,10 +16,11 @@ https://pypi.python.org/pypi/passlib
 # Options
   -h, --help            show this help message and exit<br />
   -t TIPO, --type=TIPO  TIPO(deve estar na lista)<br />
-  -p HASH, --pass=HASH  adicione o hash(opcional)<br />
-  -w WL, --wordlist=WL  adicione uma wordlist(opcional)<br />
-  -s SALT, --salt=SALT  adicione um salt(opcional)<br />
-  -u USER, --user=USER  adicione um nome de usuario(opcional)
+  -p HASH, --pass=HASH  adicione o hash<br />
+  -w WL, --wordlist=WL  adicione uma wordlist<br />
+  -s SALT, --salt=SALT  adicione um salt<br />
+  -u USER, --user=USER  adicione um nome de usuario(opcional)<br />
+  -l LIST, --list=LIST  adicione uma lista de hashs
 
 # Usage
 Default<br />
@@ -30,7 +31,7 @@ python hatdecrypter.py -t TIPO -p HASH -s SALT<br />
 
 WordPress<br />
 Windows: python hatdecrypter.py -t 2 -p HASH<br />
-Linux: python hatdecrypter.py -t 2 -p 'HASH'
+Linux: python hatdecrypter.py -t 2 -p 'HASH'<br />
 
 # ScreenShots
 <img src='http://imgur.com/IIsLF4e.png' /><br />

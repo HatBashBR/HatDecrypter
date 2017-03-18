@@ -29,11 +29,11 @@ parser.add_option("-p", "--pass", dest="hash", help="adicione o hash", default="
 parser.add_option("-w", "--wordlist", dest="wl", help="adicione uma wordlist", default="john.txt")
 parser.add_option("-s", "--salt", dest="salt", help="adicione um salt", default="None")
 parser.add_option("-u", "--user", dest="user", help="adicione um nome de usuario", default="None")
-parser.add_option("-l", "--list", dest="hlist", help="adicione uma lista de hashs")
+parser.add_option("-l", "--list", dest="list", help="adicione uma lista de hashs", default="")
 options, args = parser.parse_args()
 
 #WordPress
-def phpasswordpress(hash):
+def wpPHPass(hash):
     try:
         f = open(options.wl)
         for pwd in f.readlines():
@@ -42,7 +42,7 @@ def phpasswordpress(hash):
              
             if(d == True):
                 print "WordPress(PHPass)\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print "WordPress(PHPass)\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -52,7 +52,7 @@ def phpasswordpress(hash):
         print "Erro: "+str(e)
 
 #With User
-def hashsalthashpassuser(hash, tipo, user):
+def userTwo(hash, tipo, user):
     global word
     
     try:
@@ -66,14 +66,14 @@ def hashsalthashpassuser(hash, tipo, user):
                 
             if(d == hash):
                 print word+"(salt+"+ word +"(pass)+user)\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+"+ word +"(pass)+user)\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
 
-def saltpassuser(hash, tipo, user):
+def userOne(hash, tipo, user):
     global word
     
     try:
@@ -87,7 +87,7 @@ def saltpassuser(hash, tipo, user):
                 
             if(d == hash):
                 print word+"(salt+pass+user)\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+pass+user)\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -95,7 +95,7 @@ def saltpassuser(hash, tipo, user):
         print "Erro: "+str(e)
 
 #With Salt
-def hashsalthashhashpasssalt(hash, tipo):
+def saltNine(hash, tipo):
     global word
     
     try:
@@ -109,14 +109,14 @@ def hashsalthashhashpasssalt(hash, tipo):
                 
             if(d == hash):
                 print word+"(salt+"+ word +"("+ word +"(pass)+salt))\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+"+ word +"("+ word +"(pass)+salt))\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
     
-def hashsaltehashsaltpass(hash, tipo):
+def saltEight(hash, tipo):
     global word
     
     try:
@@ -130,14 +130,14 @@ def hashsaltehashsaltpass(hash, tipo):
                 
             if(d == hash):
                 print word+"(salt+"+ word +"(salt+pass))\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+"+ word +"(salt+pass))\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
         
-def hashsaltehashpasssalt(hash, tipo):
+def saltSeven(hash, tipo):
     global word
     
     try:
@@ -151,14 +151,14 @@ def hashsaltehashpasssalt(hash, tipo):
                 
             if(d == hash):
                 print word+"(salt+"+ word +"(pass+salt))\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+"+ word +"(pass+salt))\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
     
-def hashsalthashpasssalt(hash, tipo):
+def saltSix(hash, tipo):
     global word
     
     try:
@@ -172,14 +172,14 @@ def hashsalthashpasssalt(hash, tipo):
                 
             if(d == hash):
                 print word+"(salt+"+ word +"(pass)+salt)\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+"+ word +"(pass)+salt)\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
 
-def hashsalthashpass(hash, tipo):
+def saltFive(hash, tipo):
     global word
     
     try:
@@ -193,14 +193,14 @@ def hashsalthashpass(hash, tipo):
                 
             if(d == hash):
                 print word+"(salt+"+ word +"(pass))\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+"+ word +"(pass))\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
 
-def saltpasssalt(hash, tipo):
+def saltFour(hash, tipo):
     global word
     try:
         f = open(options.wl)
@@ -213,14 +213,14 @@ def saltpasssalt(hash, tipo):
                 
             if(d == hash):
                 print word+"(salt+pass+salt)\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+pass+salt)\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
 
-def passsaltpass(hash, tipo):
+def saltThree(hash, tipo):
     global word
     try:
         f = open(options.wl)
@@ -233,15 +233,16 @@ def passsaltpass(hash, tipo):
                 
             if(d == hash):
                 print word+"(pass+salt+pass)\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(pass+salt+pass)\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
 
-def passsalt(hash, tipo):
+def saltTwo(hash, tipo):
     global word
+    
     try:
         f = open(options.wl)
         for pwd in f.readlines():
@@ -253,19 +254,15 @@ def passsalt(hash, tipo):
                 
             if(d == hash):
                 print word+"(pass+salt)\t\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(pass+salt)\t\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
     except Exception as e:
         print "Erro: "+str(e)
 
-def saltpass(hash, tipo):
+def saltOne(hash, tipo):
     global word
-        
-    if(options.salt == "None"):
-        print "Para tentar com o " + word + " Salted voce precisa definir um salt!"
-        sys.exit()
     
     try:
         f = open(options.wl)
@@ -278,7 +275,7 @@ def saltpass(hash, tipo):
                 
             if(d == hash):
                 print word+"(salt+pass)\t\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word+"(salt+pass)\t\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -300,7 +297,7 @@ def passpass(hash, tipo):
                 
             if(d == hash):
                 print word +"(pass+"+word+"(pass))\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print word +"(pass+"+word+"(pass))\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -321,7 +318,7 @@ def sextuple(hash, tipo):
                 
             if(d == hash):
                 print "Sextuple "+ word +"\t\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print "Sextuple "+ word +"\t\t\t[+] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -342,7 +339,7 @@ def quintuple(hash, tipo):
                 
             if(d == hash):
                 print "Quintuple "+ word +"\t\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print "Quintuple "+ word +"\t\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -363,7 +360,7 @@ def quadruple(hash, tipo):
                 
             if(d == hash):
                 print "Quadruple "+ word +"\t\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print "Quadruple "+ word +"\t\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -384,7 +381,7 @@ def triple(hash, tipo):
                 
             if(d == hash):
                 print "Triple "+ word +"\t\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print "Triple "+ word +"\t\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -405,7 +402,7 @@ def double(hash, tipo):
                 
             if(d == hash):
                 print "Double "+ word +"\t\t\t[+] Senha encontrada: "+pwd
-                sys.exit()
+                return
         print "Double "+ word +"\t\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
@@ -426,7 +423,7 @@ def decryptwl(hash, tipo):
                 
             if(d == hash):
                 print word+"\t\t\t\t[+] Senha encontrada: " + pwd
-                sys.exit()
+                return
         print word+"\t\t\t\t[-] Senha nao encontrada! :-("
     except IOError:
         print "Nao foi possivel abrir sua wordlist, tente novamente."
