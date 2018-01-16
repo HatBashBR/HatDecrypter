@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-
-import urllib, re, sys, optparse, hashlib
-from bs4 import BeautifulSoup
-from passlib.hash import phpass
+try:
+    import urllib, re, sys, optparse, hashlib
+    from bs4 import BeautifulSoup
+    from passlib.hash import phpass
+ except ImportError:
+    print "You need install modules required"
 
 #Author: Everton a.k.a XGU4RD14N && Mateus Lino a.k.a Dctor
 #fb: https://www.facebook.com/hatbashbr/
